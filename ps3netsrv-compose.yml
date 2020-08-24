@@ -1,0 +1,27 @@
+version: '2.2'
+services:
+  ps3netsrv:
+    build:
+      context: '.'
+    container_name: ps3netsrv
+    image: *Changeme*
+    environment:
+      - TZ=Europe/London
+      - USER_ID=1001
+      - GROUP_ID=1001
+    network_mode: "host"
+    ports:
+      - "38008:38008"
+    volumes:
+      - "ps3data:/games:rw"
+    restart: on-failure:5
+    cpus: 4.0
+    mem_limit: 1073741824
+
+volumes:
+  ps3data:
+    driver: local
+    driver_opts:
+      type: cifs
+      o: username=ps3,password=ps3,uid=1001,gid=1001
+      device: "//*Changeme*/Shared/PS3"
