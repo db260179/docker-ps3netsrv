@@ -17,7 +17,7 @@ ARG S6_OVERLAY_RELEASE=https://github.com/just-containers/s6-overlay/releases/do
 # Set PS3NETSRV vars
 ARG PS3NETSRV_REPO=https://github.com/aldostools/webMAN-MOD.git
 ARG PS3NETSRV_DIR=_Projects_/ps3netsrv
-ARG PS3NETSRV_BRANCH=master
+ARG PS3NETSRV_TAG=1.47.30
 
 # Provide QEMU files
 FROM multiarch/qemu-user-static as qemu
@@ -27,13 +27,12 @@ FROM ${ARM_ORG}/alpine:${ALPINE_VERSION} as builder
 
 ARG PS3NETSRV_REPO
 ARG PS3NETSRV_DIR
-ARG PS3NETSRV_BRANCH
+ARG PS3NETSRV_TAG
 ARG QEMU_ARCH
 
 ENV PS3NETSRV_REPO=${PS3NETSRV_REPO} \
     PS3NETSRV_DIR=${PS3NETSRV_DIR} \
-    PS3NETSRV_BRANCH=${PS3NETSRV_BRANCH} \
-    PS3NETSRV_VERSION=20200611
+    PS3NETSRV_TAG=${PS3NETSRV_TAG}
 
 # Add qemu-arm-static binary
 COPY --from=qemu /usr/bin/qemu-${QEMU_ARCH}-static /usr/bin
@@ -52,9 +51,9 @@ RUN \
     mbedtls-dev \
     tar && \
   echo "Building ps3netsrv..." && \
-    git clone --depth 1 ${PS3NETSRV_REPO} repo && \
+    git clone ${PS3NETSRV_REPO} repo && \
     cd /tmp/repo/${PS3NETSRV_DIR} && \
-    git checkout ${PS3NETSRV_BRANCH} && \
+    git checkout ${PS3NETSRV_TAG} && \
     meson build --buildtype=release && \
     ninja -C build/ && \
     mkdir -p /tmp/ps3netsrv-bin && \
