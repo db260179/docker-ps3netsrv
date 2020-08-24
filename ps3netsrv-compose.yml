@@ -9,7 +9,7 @@ services:
       - TZ=Europe/London
       - USER_ID=1001
       - GROUP_ID=1001
-    network_mode: "host"
+    #network_mode: "host"
     ports:
       - "38008:38008"
     volumes:
