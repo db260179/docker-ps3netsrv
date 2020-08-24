@@ -15,7 +15,7 @@ ARG S6_OVERLAY_RELEASE=https://github.com/just-containers/s6-overlay/releases/do
 # Set PS3NETSRV vars
 ARG PS3NETSRV_REPO=https://github.com/aldostools/webMAN-MOD.git
 ARG PS3NETSRV_DIR=_Projects_/ps3netsrv
-ARG PS3NETSRV_BRANCH=master
+ARG PS3NETSRV_BRANCH=1.47.30
 
 # Build ps3netsrv:master
 FROM alpine:${ALPINE_VERSION} as builder
@@ -26,8 +26,7 @@ ARG PS3NETSRV_BRANCH
 
 ENV PS3NETSRV_REPO=${PS3NETSRV_REPO} \
     PS3NETSRV_DIR=${PS3NETSRV_DIR} \
-    PS3NETSRV_BRANCH=${PS3NETSRV_BRANCH} \
-    PS3NETSRV_VERSION=20200611
+    PS3NETSRV_BRANCH=${PS3NETSRV_BRANCH}
 
 # Change working dir.
 WORKDIR /tmp
