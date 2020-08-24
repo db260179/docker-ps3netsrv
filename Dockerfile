@@ -44,7 +44,7 @@ RUN \
   echo "Building ps3netsrv..." && \
     git clone --depth 1 ${PS3NETSRV_REPO} repo && \
     cd /tmp/repo/${PS3NETSRV_DIR} && \
-    git checkout -b master -t ${PS3NETSRV_TAG} && \
+    git checkout ${PS3NETSRV_TAG} && \
     meson build --buildtype=release && \
     ninja -C build/ && \
     mkdir -p /tmp/ps3netsrv-bin && \
