@@ -132,25 +132,42 @@ docker rm ps3netsrv
 
 ## Docker Compose File
 
-Here is an example of a `docker-compose.yml` file that can be used with
-[Docker Compose](https://docs.docker.com/compose/overview/).
+Example compose file included - 'ps3netsrv-compose.yml'
 
 Make sure to adjust according to your needs.  Note that only mandatory network
-ports are part of the example.
+ports are part of the example. Uncomment out the network_mode if you wish to use the docker host instead of bridge mode.
+
+A cifs example is added incase you want to access a large shared drive.
 
 ```yaml
-version: '3'
+version: '2.2'
 services:
   ps3netsrv:
-    image: shawly/ps3netsrv
+    build:
+      context: '.'
+    container_name: ps3netsrv
+    image: *Changeme*
     environment:
-      - TZ: Europe/Berlin
-      - USER_ID: 38008
-      - GROUP_ID: 38008
+      - TZ=Europe/London
+      - USER_ID=1001
+      - GROUP_ID=1001
+    #network_mode: "host"
     ports:
       - "38008:38008"
     volumes:
-      - "$HOME:/games:rw"
+      - "ps3data:/games:rw"
+    restart: on-failure:5
+    cpus: 4.0
+    mem_limit: 1073741824
+
+volumes:
+  ps3data:
+    driver: local
+    driver_opts:
+      type: cifs
+      o: username=ps3,password=ps3,uid=1001,gid=1001
+      device: "//*Changeme*/Shared/PS3"
+
 ```
 
 ## Docker Image Update
